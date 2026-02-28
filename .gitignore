@@ -1,0 +1,20 @@
+# Node
+node_modules
+bun.lockb
+dist
+build
+
+# Env files
+.env
+.env.local
+.env.*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Firebase
+firebase-service-account.json
+.idea/

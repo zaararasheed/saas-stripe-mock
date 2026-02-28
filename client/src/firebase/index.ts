@@ -1,0 +1,1 @@
+export { firebaseApp, auth, db } from "./firebase-config";
