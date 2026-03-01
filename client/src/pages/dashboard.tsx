@@ -65,7 +65,7 @@ const Dashboard = () => {
 
                 const token = await currentUser.getIdToken(true);
 
-                const res = await fetch("http://localhost:3000/pro-analytics", {
+                const res = await fetch(import.meta.env.VITE_API_URL + "/pro-analytics", {
                     headers: { Authorization: "Bearer " + token },
                 });
 

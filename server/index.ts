@@ -218,8 +218,8 @@ app.post("/create-checkout-session", async (req, res) => {
             customer: customerId,
             line_items: [{ price: priceId, quantity: 1 }],
             metadata: { userId },
-            success_url: "http://localhost:5173/dashboard",
-            cancel_url: "http://localhost:5173/subscription",
+            success_url: process.env.FRONTEND_URL + "/dashboard",
+            cancel_url: process.env.FRONTEND_URL + "/subscription",
         });
 
         res.json({ url: session.url });

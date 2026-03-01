@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../firebase/AuthProvider";
 
-const SERVER_BASE = "http://localhost:3000";
+const SERVER_BASE = import.meta.env.VITE_API_URL;
 
 type Plan = {
     id: string;

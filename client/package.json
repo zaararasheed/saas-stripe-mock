@@ -1,34 +1,22 @@
 {
-  "name": "client",
-  "module": "index.ts",
-  "type": "module",
+  "name": "saas-stripe-client",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.12",
-    "@types/bun": "latest",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "@vitejs/plugin-react": "^4.7.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.12",
-    "vite": "^7.0.6"
-  },
-  "peerDependencies": {
-    "typescript": "^5.9.2"
-  },
   "dependencies": {
-    "@stripe/stripe-js": "^7.8.0",
-    "@types/react-router-dom": "^5.3.3",
-    "firebase": "^12.6.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.7.1",
-    "stripe": "^18.4.0"
+    "firebase": "^10.x.x",
+    "react": "^18.x.x",
+    "react-dom": "^18.x.x",
+    "react-router-dom": "^6.x.x"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.x.x",
+    "typescript": "^5.x.x",
+    "vite": "^5.x.x"
   }
 }
