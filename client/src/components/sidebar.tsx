@@ -7,8 +7,12 @@ const Sidebar: React.FC = () => {
             <div className="brand">
                 <div className="logo">⚡</div>
                 <div>
-                    <div className="brand-title">SaaS Mock</div>
-                    <div className="brand-sub">Stripe-powered</div>
+                    <div className="brand-title">
+                        Velvety Analytics
+                    </div>
+                    <div className="brand-sub">
+                        Subscription SaaS Platform
+                    </div>
                 </div>
             </div>
 
@@ -33,7 +37,7 @@ const Sidebar: React.FC = () => {
             </nav>
 
             <div className="sidebar-footer">
-                <small>© {new Date().getFullYear()} Zaara</small>
+                <small>© {new Date().getFullYear()} Velvety Analytics</small>
             </div>
         </aside>
     );
