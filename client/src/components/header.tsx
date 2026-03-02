@@ -26,9 +26,11 @@ const Header: React.FC = () => {
             }
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        // ✅ Changed from mousedown → click
+        document.addEventListener("click", handleClickOutside);
+
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("click", handleClickOutside);
         };
     }, []);
 
@@ -49,7 +51,12 @@ const Header: React.FC = () => {
 
                     {open && (
                         <div className="dropdown">
-                            <button onClick={logout}>
+                            <button
+                                onClick={async () => {
+                                    await logout();
+                                    setOpen(false);
+                                }}
+                            >
                                 Logout
                             </button>
                         </div>
