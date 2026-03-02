@@ -1,50 +1,35 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../firebase/AuthProvider";
 
 const Header: React.FC = () => {
     const { user, logout, plan } = useAuth();
     const [open, setOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const planLabel =
-        plan === "pro" ? "PRO" :
-            plan === "basic" ? "BASIC" :
-                "FREE";
+        plan === "pro"
+            ? "PRO"
+            : plan === "basic"
+                ? "BASIC"
+                : "FREE";
 
     const planClass =
-        plan === "pro" ? "badge badge-pro" :
-            plan === "basic" ? "badge badge-basic" :
-                "badge badge-free";
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target as Node)
-            ) {
-                setOpen(false);
-            }
-        };
-
-        // ✅ Changed from mousedown → click
-        document.addEventListener("click", handleClickOutside);
-
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, []);
+        plan === "pro"
+            ? "badge badge-pro"
+            : plan === "basic"
+                ? "badge badge-basic"
+                : "badge badge-free";
 
     return (
         <header className="header">
             <h2 className="header-title">Dashboard</h2>
 
             {user && (
-                <div className="header-user" ref={dropdownRef}>
+                <div className="header-user">
                     <span className={planClass}>{planLabel}</span>
 
                     <div
                         className="user-toggle"
-                        onClick={() => setOpen(!open)}
+                        onClick={() => setOpen((prev) => !prev)}
                     >
                         {user.email}
                     </div>
@@ -52,7 +37,8 @@ const Header: React.FC = () => {
                     {open && (
                         <div className="dropdown">
                             <button
-                                onClick={async () => {
+                                onClick={async (e) => {
+                                    e.stopPropagation();
                                     await logout();
                                     setOpen(false);
                                 }}
