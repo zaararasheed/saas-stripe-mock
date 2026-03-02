@@ -223,7 +223,9 @@ app.post("/create-checkout-session", async (req, res) => {
         });
 
         res.json({ url: session.url });
+
     } catch (error: any) {
+        console.log("🔥 STRIPE ERROR FULL:", error);
         res.status(500).json({ error: error.message });
     }
 });
