@@ -10,7 +10,15 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(
+    cors({
+        origin: [
+            "https://velvety-pavlova-1c6a33.netlify.app"
+        ],
+        methods: ["GET", "POST", "OPTIONS"],
+        allowedHeaders: ["Content-Type"],
+    })
+);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
