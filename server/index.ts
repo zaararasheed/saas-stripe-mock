@@ -11,8 +11,6 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json());
-
 app.get("/test-route", (req, res) => {
     res.send("TEST ROUTE WORKS");
 });
@@ -28,7 +26,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 /* =======================================
    FIREBASE ADMIN (BUN SAFE)
 ======================================= */
-
 
 const serviceAccount = JSON.parse(
     process.env.FIREBASE_SERVICE_ACCOUNT as string
@@ -69,20 +66,17 @@ app.post(
             let subscriptionId: string | null = null;
             let userId: string | null = null;
 
-            // 1️⃣ Checkout completed
             if (event.type === "checkout.session.completed") {
                 const session = event.data.object as any;
                 subscriptionId = session.subscription ?? null;
                 userId = session.metadata?.userId ?? null;
             }
 
-            // 2️⃣ Invoice paid
             if (event.type === "invoice.paid") {
                 const invoice = event.data.object as any;
                 subscriptionId = invoice.subscription ?? null;
             }
 
-            // 3️⃣ Subscription updated/deleted
             if (
                 event.type === "customer.subscription.updated" ||
                 event.type === "customer.subscription.deleted"
@@ -95,12 +89,10 @@ app.post(
                 return res.json({ received: true });
             }
 
-            // Always retrieve full subscription
             const subscription = (await stripe.subscriptions.retrieve(
                 subscriptionId
             )) as any;
 
-            // If userId not from metadata → find via stripeCustomerId
             if (!userId) {
                 const snapshot = await db
                     .collection("users")
@@ -150,9 +142,14 @@ app.post(
 );
 
 /* =======================================
-   JSON PARSER
+   JSON PARSER (MOVED HERE ONLY)
 ======================================= */
 
+app.use(express.json());
+
+/* =======================================
+   ROUTES
+======================================= */
 
 app.get("/pro-analytics", async (req, res) => {
     try {
@@ -179,7 +176,6 @@ app.get("/pro-analytics", async (req, res) => {
             return res.status(403).json({ error: "Pro plan required" });
         }
 
-        // Fake analytics data
         res.json({
             message: "Welcome to Pro Analytics!",
             metrics: {
@@ -192,10 +188,6 @@ app.get("/pro-analytics", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
-
-/* =======================================
-   CREATE CHECKOUT
-======================================= */
 
 app.post("/create-checkout-session", async (req, res) => {
     try {
@@ -235,7 +227,7 @@ app.post("/create-checkout-session", async (req, res) => {
         res.json({ url: session.url });
 
     } catch (error: any) {
-        console.log("🔥 STRIPE ERROR FULL:", error);
+        console.log("STRIPE ERROR:", error);
         res.status(500).json({ error: error.message });
     }
 });
