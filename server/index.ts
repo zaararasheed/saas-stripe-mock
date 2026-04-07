@@ -229,8 +229,13 @@ app.post("/create-checkout-session", async (req, res) => {
         res.json({ url: session.url });
 
     } catch (error: any) {
-        console.log("STRIPE ERROR:", error);
-        res.status(500).json({ error: error.message });
+        console.log("FULL ERROR:", error);
+        console.log("ERROR MESSAGE:", error?.message);
+        console.log("ERROR TYPE:", error?.type);
+
+        res.status(500).json({
+            error: error?.message || "Unknown error"
+        });
     }
 });
 
