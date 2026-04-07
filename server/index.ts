@@ -12,13 +12,14 @@ dotenv.config();
 const app = express();
 app.use(
     cors({
-        origin: [
-            "https://velvety-pavlova-1c6a33.netlify.app"
-        ],
+        origin: "https://velvety-pavlova-1c6a33.netlify.app",
         methods: ["GET", "POST", "OPTIONS"],
-        allowedHeaders: ["Content-Type"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
+
+// VERY IMPORTANT LINE
+app.options("*", cors());
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
