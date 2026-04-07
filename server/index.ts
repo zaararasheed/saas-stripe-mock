@@ -190,6 +190,8 @@ app.get("/pro-analytics", async (req, res) => {
 });
 
 app.post("/create-checkout-session", async (req, res) => {
+    console.log("ROUTE HIT"); // 👈 ADD THIS LINE
+
     try {
         const { userId, priceId } = req.body;
 
