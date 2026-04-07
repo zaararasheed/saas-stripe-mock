@@ -54,19 +54,32 @@ const Subscription: React.FC = () => {
                 }
             );
 
-            const data = await response.json();
+            let data;
+
+            try {
+                data = await response.json();
+            } catch {
+                throw new Error("Invalid server response");
+            }
+
+            console.log("SERVER RESPONSE:", data);
 
             if (!response.ok) {
-                throw new Error(data.error || "Action failed");
+                throw new Error(data?.error || "Action failed");
             }
 
             if (!subscribed) {
+                if (!data?.url) {
+                    throw new Error("No checkout URL returned");
+                }
+
                 window.location.href = data.url;
             } else {
                 setMessage("Plan updated successfully.");
             }
-        } catch {
-            setMessage("Something went wrong.");
+        } catch (err: any) {
+            console.log("FRONTEND ERROR:", err?.message);
+            setMessage(err?.message || "Something went wrong.");
         } finally {
             setLoadingId(null);
         }
