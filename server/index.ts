@@ -10,6 +10,9 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
+
+app.use(express.json());
+
 app.get("/test-route", (req, res) => {
     res.send("TEST ROUTE WORKS");
 });
@@ -150,7 +153,6 @@ app.post(
    JSON PARSER
 ======================================= */
 
-app.use(express.json());
 
 app.get("/pro-analytics", async (req, res) => {
     try {
