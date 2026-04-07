@@ -10,6 +10,10 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
+app.get("/test-route", (req, res) => {
+    res.send("TEST ROUTE WORKS");
+});
+
 app.use(cors({
     origin: "https://velvety-pavlova-1c6a33.netlify.app",
     methods: ["GET", "POST", "OPTIONS"],
