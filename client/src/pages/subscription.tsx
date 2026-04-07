@@ -84,11 +84,19 @@ const Subscription: React.FC = () => {
                 body: JSON.stringify({ userId: user.uid }),
             });
 
-            const data = await response.json();
+            let data;
+
+            try {
+                data = await response.json();
+            } catch {
+                throw new Error("Invalid server response");
+            }
 
             if (!response.ok) {
-                throw new Error(data.error || "Cancel failed");
+                throw new Error(data?.error || "Action failed");
             }
+
+            console.log("SERVER RESPONSE:", data);
 
             setMessage("Subscription will cancel at the end of billing period.");
         } catch {
