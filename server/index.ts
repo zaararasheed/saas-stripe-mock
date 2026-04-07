@@ -20,18 +20,7 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-// Add this instead
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://velvety-pavlova-1c6a33.netlify.app");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(200);
-    }
-
-    next();
-});
+app.options("/*", cors());
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
