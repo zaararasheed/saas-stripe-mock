@@ -10,16 +10,24 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
-app.use(
-    cors({
-        origin: "https://velvety-pavlova-1c6a33.netlify.app",
-        methods: ["GET", "POST", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
-);
+app.use(cors({
+    origin: "https://velvety-pavlova-1c6a33.netlify.app",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-// VERY IMPORTANT LINE
-app.options("*", cors());
+// Add this instead
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://velvety-pavlova-1c6a33.netlify.app");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200);
+    }
+
+    next();
+});
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
