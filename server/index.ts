@@ -197,11 +197,24 @@ app.post("/create-checkout-session", async (req, res) => {
 
         const userDoc = await db.collection("users").doc(userId).get();
 
-        if (!userDoc.exists) {
-            return res.status(404).json({ error: "User not found" });
-        }
+        let userData;
 
-        const userData = userDoc.data();
+        if (!userDoc.exists) {
+            console.log("User not found, creating new user...");
+
+            userData = {
+                email: null,
+                stripeCustomerId: null,
+                subscribed: false,
+                plan: "free",
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            };
+
+            await db.collection("users").doc(userId).set(userData);
+        } else {
+            userData = userDoc.data();
+        }
+        
         let customerId = userData?.stripeCustomerId;
 
         if (!customerId) {
